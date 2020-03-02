@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-    All of the common code is wrangled in this package.
+    Filters to be used in the underlying testing and transforming
 """
 
 __author__ = "John Hoff"
@@ -11,6 +11,5 @@ __copyright__ = "Copyright 2020, John Hoff"
 __license__ = "MIT License"
 __version__ = "1.0.0"
 
-from utility.path import *
-from utility.DatasetCreator import *
-from utility.score import *
+from filter.GaussianFilter import *
+from filter.GaussianNoiseFilter import *

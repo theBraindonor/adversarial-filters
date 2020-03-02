@@ -13,8 +13,10 @@ __version__ = "1.0.0"
 
 
 import argparse
+import json
 
 from keras.preprocessing import image
+from keras.utils import get_file
 import numpy as np
 import pandas as pd
 
@@ -34,6 +36,16 @@ class DatasetCreator(object):
         self.network = network
         self.preprocessor = preprocessor
         self.decoder = decoder
+        self.class_index = dict()
+        file_path = get_file(
+            'imagenet_class_index.json',
+            ('https://storage.googleapis.com/download.tensorflow.org/'
+             'data/imagenet_class_index.json'),
+            cache_subdir='models',
+            file_hash='c2c37ea517e94d9795004a39431a14cb')
+        with open(file_path) as f:
+            for index, item in json.load(f).items():
+                self.class_index[item[0]] = index
 
     def create_and_save(self):
         """
@@ -75,9 +87,9 @@ class DatasetCreator(object):
         for index, row in image_df.iterrows():
             scaled_image = image.img_to_array(image.load_img(row['image'], target_size=(224, 224)))
             input = self.preprocessor(np.expand_dims(scaled_image.copy(), axis=0))
-            prediction = self.decoder(model.predict(input), top=1)[0][0][0]
-            if row['label'] == prediction:
-                accumulator.append([scaled_image, prediction])
+            raw_predictions = model.predict(input)
+            if int(self.class_index[row['label']]) == int(np.argmax(raw_predictions)):
+                accumulator.append([scaled_image, int(self.class_index[row['label']])])
             if len(accumulator) >= number:
                 break
 
