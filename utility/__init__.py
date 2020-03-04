@@ -14,3 +14,6 @@ __version__ = "1.0.0"
 from utility.path import *
 from utility.DatasetCreator import *
 from utility.score import *
+from utility.OptimizationSearch import *
+from utility.ExpectationOverTransformation import *
+
