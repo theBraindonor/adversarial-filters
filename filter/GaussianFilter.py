@@ -28,7 +28,7 @@ class GaussianFilter(object):
     @staticmethod
     def get_dimensions():
         return [
-            Real(low=0.1, high=24, name='sigma')
+            Real(low=0.25, high=24, name='sigma')
         ]
 
     @staticmethod

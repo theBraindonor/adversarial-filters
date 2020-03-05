@@ -29,8 +29,8 @@ class GaussianNoiseFilter(object):
     @staticmethod
     def get_dimensions():
         return [
-            Real(low=-0.25, high=0.25, name='mean'),
-            Real(low=0.01, high=0.1, name='var')
+            Real(low=-0.05, high=0.05, name='mean'),
+            Real(low=0.001, high=0.05, name='var')
         ]
 
     def transform_image(self, dimensions, image):

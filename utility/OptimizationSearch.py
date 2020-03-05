@@ -14,15 +14,13 @@ __version__ = "1.0.0"
 
 import time
 
-import numpy as np
 from skopt import gp_minimize
 
-from utility.ExpectationOverTransformation import ExpectationOverTransformation
-from utility.score import lab_color_distance
+from utility.score import filtered_network_eot
 
 
 class OptimizationSearch(object):
-    def __init__(self, images, filter, network_model, preprocessor, lambda_value = 1/127, random_state=454):
+    def __init__(self, images, filter, network_model, preprocessor, lambda_value=None, random_state=454):
         self.images = images
         self.filter = filter
         self.network_model = network_model
@@ -30,7 +28,7 @@ class OptimizationSearch(object):
         self.lambda_value = lambda_value
         self.random_state = random_state
 
-        self.dimenion_labels = None
+        self.dimension_labels = None
         self.iterations_current = None
         self.iterations_max = None
         self.search_start_time = None
@@ -50,6 +48,8 @@ class OptimizationSearch(object):
         self.best_score = None
         self.best_additional_scores = dict()
 
+        eot_scores = list()
+
         def objective_function(dimensions):\
             # Quick information about the current iteration
             elapsed_time = time.time() - self.search_start_time
@@ -65,31 +65,18 @@ class OptimizationSearch(object):
                 print('%s = %s' % (self.dimension_labels[i], dimensions[i]))
             self.iterations_current += 1
 
-            misclassified_count = 0
-            eot_scoring = ExpectationOverTransformation(self.lambda_value)
+            eot_scoring = filtered_network_eot(self.images,
+                                               self.filter,
+                                               dimensions,
+                                               self.preprocessor,
+                                               self.network_model,
+                                               self.lambda_value)
+            eot_scores.append(eot_scoring.get_all_scores())
 
-            for image in self.images:
-                original_image, target = image
-                network_input = self.filter.transform_image(dimensions, original_image)
-                color_distance = lab_color_distance(original_image, network_input)
-                network_input = self.preprocessor(np.expand_dims(network_input, axis=0))
-                predictions = self.network_model.predict(network_input)
-                target_prediction = predictions[0][target]
-                model_prediction = predictions[0][np.argmax(predictions)]
-                probability = np.max([model_prediction - target_prediction, 0.001])
-                if target_prediction < model_prediction:
-                    probability_difference = (model_prediction + 0.999) / 2
-                    misclassified_count += 1
-                else:
-                    probability_difference = (-target_prediction + 1.001) / 2
-                eot_scoring.update(probability_difference, color_distance)
+            print('Expectation over Transformation scoring:')
+            print(eot_scoring.get_all_scores())
 
-            eot_scoring.finalize()
-
-            print('Mean Score: %s' % eot_scoring.get_mean_score())
-            print(' Max Score: %s' % eot_scoring.get_max_score())
-            print('Accuracy: %s' % ((len(self.images) - misclassified_count) / len(self.images)))
-            return -eot_scoring.get_mean_score()
+            return -eot_scoring.adjusted_eot
 
         search_results = gp_minimize(func=objective_function,
                                      dimensions=self.filter.get_dimensions(),
@@ -98,3 +85,5 @@ class OptimizationSearch(object):
                                      random_state=self.random_state)
 
         print(search_results)
+
+        return search_results, eot_scores
