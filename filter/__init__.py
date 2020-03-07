@@ -19,3 +19,4 @@ from filter.HistogramEqualizationFilter import *
 from filter.FourierGaussianFilter import *
 from filter.FourierEllipsoidFilter import *
 from filter.FourierUniformFilter import *
+from filter.WaveletDenoiseFilter import *
