@@ -17,3 +17,4 @@ from utility.score import *
 from utility.OptimizationSearch import *
 from utility.ExpectationOverTransformation import *
 from utility.save import *
+from utility.OptimizationTest import *

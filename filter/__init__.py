@@ -13,3 +13,9 @@ __version__ = "1.0.0"
 
 from filter.GaussianFilter import *
 from filter.GaussianNoiseFilter import *
+from filter.ColorBlindnessFilter import *
+from filter.DaltonizationFilter import *
+from filter.HistogramEqualizationFilter import *
+from filter.FourierGaussianFilter import *
+from filter.FourierEllipsoidFilter import *
+from filter.FourierUniformFilter import *
