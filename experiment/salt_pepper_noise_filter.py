@@ -47,7 +47,7 @@ if __name__ == '__main__':
     ITERATIONS = int(arguments['iterations'])
 
     print('')
-    print('Starting adversarial evaluation of a speckle noise filter.')
+    print('Starting adversarial evaluation of a salt and pepper noise filter.')
     print('')
     print('       Network: %s' % NETWORK)
     print('        Sample: %s' % SAMPLE)
