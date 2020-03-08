@@ -27,12 +27,12 @@ class FourierGaussianFilter(object):
 
     @staticmethod
     def get_default_dimensions():
-        return [1.0]
+        return [2.0]
 
     @staticmethod
     def get_dimensions():
         return [
-            Real(low=0.25, high=24, name='sigma')
+            Real(low=0.5, high=30., name='sigma')
         ]
 
     @staticmethod

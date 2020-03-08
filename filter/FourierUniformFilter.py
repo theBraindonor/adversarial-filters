@@ -27,12 +27,12 @@ class FourierUniformFilter(object):
 
     @staticmethod
     def get_default_dimensions():
-        return [1.0]
+        return [5.0]
 
     @staticmethod
     def get_dimensions():
         return [
-            Real(low=0.25, high=24, name='size')
+            Real(low=1., high=50., name='size')
         ]
 
     @staticmethod
