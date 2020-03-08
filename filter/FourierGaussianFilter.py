@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-    This file will create a configurable fourier gaussian filter that can be used to test the effectiveness of the
-    filter in adversarial attacks
+    This file defines a fourier gaussian filter that can be used in experiments and evaluations.
 """
 
 __author__ = "John Hoff"
@@ -20,6 +19,9 @@ from skopt.space import Real
 
 
 class FourierGaussianFilter(object):
+    """
+    This filter will apply a fourier ellipsoid transformation with the indicated sigma.
+    """
     def __init__(self):
         pass
 

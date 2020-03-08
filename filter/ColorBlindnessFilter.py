@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-    This file will create a configurable gaussian filter that can be used to test the effectiveness of the
-    filter in adversarial attacks
+    This file defines a color blindness simulation filter to be used in experiments and evaluations.
 """
 
 __author__ = "John Hoff"
@@ -100,6 +99,11 @@ def apply_rgb_deuteranopia(image):
 
 
 class ColorBlindnessFilter(object):
+    """
+    The color blindness filter will accept two different blindness types: protanopia and deuteranopia.
+    The simulation is performed by converting each image into the LMS color space, applying the necessary
+    color blindness transformation, and then tranforming back into the RGB color space.
+    """
     def __init__(self):
         pass
 

@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 
 """
-    This file defines a gaussian noise filter that can be used in experiments and evaluations.
+    This file will create a configurable salt and pepper noise filter that can be used to test the effectiveness of the
+    filter in adversarial attacks
 """
 
 __author__ = "John Hoff"
@@ -17,9 +18,9 @@ from skimage.util import random_noise
 from skopt.space import Real
 
 
-class GaussianNoiseFilter(object):
+class SaltPepperNoiseFilter(object):
     """
-    This filter will apply a gaussian noise transformation with the indicated mean and variance.
+    This filter will apply a salt and pepper noise transformation with the indicated amount and salt_vs_pepper.
     """
     def __init__(self, random_state):
         self.random_state = random_state
@@ -31,14 +32,15 @@ class GaussianNoiseFilter(object):
     @staticmethod
     def get_dimensions():
         return [
-            Real(low=-0.05, high=0.05, name='mean'),
-            Real(low=0.001, high=0.05, name='var')
+            Real(low=0.01, high=0.25, name='amount'),
+            Real(low=0.01, high=0.99, name='salt_vs_pepper')
         ]
 
     def transform_image(self, dimensions, image):
-        mean, var = dimensions
+        amount, salt_vs_pepper = dimensions
         previous = np.random.get_state()
-        result = np.clip(random_noise(np.clip(image/255., 0., 1.), mode='gaussian',
-                                      seed=self.random_state, mean=mean, var=var)*255., 0., 255.)
+        result = np.clip(random_noise(np.clip(image/255., 0., 1.), mode='s&p',
+                                      seed=self.random_state, amount=amount,
+                                      salt_vs_pepper=salt_vs_pepper)*255., 0., 255.)
         np.random.set_state(previous)
         return result

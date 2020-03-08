@@ -19,6 +19,9 @@ from skopt.space import Real
 
 
 class WaveletDenoiseFilter(object):
+    """
+    This filter will apply a wavelet denoise transformation to an image with the indicated sigma.
+    """
     def __init__(self):
         pass
 

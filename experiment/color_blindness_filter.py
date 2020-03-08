@@ -3,6 +3,7 @@
 
 """
     Test the impact of color blindness simulation on several imagenet based classifiers.
+    Protanopia and Deuteranopia are the two types of color blindness supported by this experiment.
 """
 
 __author__ = "John Hoff"
@@ -10,6 +11,7 @@ __email__ = "john.hoff@braindonor.net"
 __copyright__ = "Copyright 2020, John Hoff"
 __license__ = "MIT License"
 __version__ = "1.0.0"
+
 
 import argparse
 
@@ -28,6 +30,7 @@ from utility import OptimizationTest
 from utility import use_project_path
 from utility import save_filter_test_scores
 
+
 if __name__ == '__main__':
     use_project_path()
 
@@ -42,7 +45,7 @@ if __name__ == '__main__':
     SAMPLE = arguments['sample']
 
     print('')
-    print('Starting adversarial evaluation of a gaussian filter.')
+    print('Starting adversarial evaluation of a color blindness filter.')
     print('')
     print('       Network: %s' % NETWORK)
     print('        Sample: %s' % SAMPLE)

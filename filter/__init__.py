@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-    Filters to be used in the underlying testing and transforming
+    Pull the filters together to be easily included in the experiment and evaluation code.
 """
 
 __author__ = "John Hoff"
@@ -20,3 +20,6 @@ from filter.FourierGaussianFilter import *
 from filter.FourierEllipsoidFilter import *
 from filter.FourierUniformFilter import *
 from filter.WaveletDenoiseFilter import *
+from filter.SpeckleNoiseFilter import *
+from filter.SaltPepperNoiseFilter import *
+from filter.DaltonizationLabEnchanceFilter import *

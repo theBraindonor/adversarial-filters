@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-    This file will create a configurable gaussian filter that can be used to test the effectiveness of the
-    filter in adversarial attacks
+    This file defines a gaussian filter that can be used in experiments and evaluations.
 """
 
 __author__ = "John Hoff"
@@ -18,6 +17,9 @@ from skopt.space import Real
 
 
 class GaussianFilter(object):
+    """
+    This filter will apply a gaussian transformation with the indicated sigma.
+    """
     def __init__(self):
         pass
 

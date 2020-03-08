@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-    Filters to be used in the underlying testing and transforming
+    Test the impact on a fourier uniform filter on several imagenet based classifiers.
 """
 
 __author__ = "John Hoff"
@@ -24,7 +24,7 @@ from keras.applications.resnet_v2 import ResNet152V2
 from keras.applications.resnet_v2 import preprocess_input as resnet_preprocess_input
 import numpy as np
 
-from filter import GaussianNoiseFilter
+from filter import FourierUniformFilter
 from utility import OptimizationSearch
 from utility import use_project_path
 from utility import save_filter_search_scores
@@ -47,14 +47,14 @@ if __name__ == '__main__':
     ITERATIONS = int(arguments['iterations'])
 
     print('')
-    print('Starting adversarial evaluation of a gaussian filter.')
+    print('Starting adversarial evaluation of a fourier uniform filter.')
     print('')
     print('       Network: %s' % NETWORK)
     print('        Sample: %s' % SAMPLE)
     print('    Iterations: %s' % ITERATIONS)
     print('')
 
-    filter = GaussianNoiseFilter()
+    filter = FourierUniformFilter()
 
     if NETWORK == 'vgg16':
         model = VGG16(weights='imagenet')
@@ -66,7 +66,7 @@ if __name__ == '__main__':
             lambda_value=1.0
         )
         results, scores = search.perform_search(iterations=ITERATIONS)
-        save_filter_search_scores(filter, results, scores, 'log/gaussian_noise_filter_vgg16_%s_search.csv' % SAMPLE)
+        save_filter_search_scores(filter, results, scores, 'log/fourier_uniform_filter_vgg16_%s_search.csv' % SAMPLE)
 
     if NETWORK == 'vgg19':
         model = VGG19(weights='imagenet')
@@ -78,7 +78,7 @@ if __name__ == '__main__':
             lambda_value=1.0
         )
         results, scores = search.perform_search(iterations=ITERATIONS)
-        save_filter_search_scores(filter, results, scores, 'log/gaussian_noise_filter_vgg19_%s_search.csv' % SAMPLE)
+        save_filter_search_scores(filter, results, scores, 'log/fourier_uniform_filter_vgg19_%s_search.csv' % SAMPLE)
 
     if NETWORK == 'densenet':
         model = DenseNet201(weights='imagenet')
@@ -90,7 +90,7 @@ if __name__ == '__main__':
             lambda_value=1.0
         )
         results, scores = search.perform_search(iterations=ITERATIONS)
-        save_filter_search_scores(filter, results, scores, 'log/gaussian_noise_filter_densenet201_%s_search.csv' % SAMPLE)
+        save_filter_search_scores(filter, results, scores, 'log/fourier_uniform_filter_densenet201_%s_search.csv' % SAMPLE)
 
     if NETWORK == 'resnet':
         model = ResNet152V2(weights='imagenet')
@@ -102,4 +102,4 @@ if __name__ == '__main__':
             lambda_value=1.0
         )
         results, scores = search.perform_search(iterations=ITERATIONS)
-        save_filter_search_scores(filter, results, scores, 'log/gaussian_noise_filter_resnet152v2_%s_search.csv' % SAMPLE)
+        save_filter_search_scores(filter, results, scores, 'log/fourier_uniform_filter_resnet152v2_%s_search.csv' % SAMPLE)

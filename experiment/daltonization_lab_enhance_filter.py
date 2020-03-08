@@ -2,7 +2,9 @@
 # -*- coding: utf-8 -*-
 
 """
-    Test the impact on a fourier ellipsoid filter on several imagenet based classifiers.
+    Test the impact of daltonization with LAB color enhancement to compensate for color blindness
+    on several imagent base classifiers.
+    Protanopia and Deuteranopia are the two types of color blindness supported by this experiment.
 """
 
 __author__ = "John Hoff"
@@ -23,10 +25,10 @@ from keras.applications.resnet_v2 import ResNet152V2
 from keras.applications.resnet_v2 import preprocess_input as resnet_preprocess_input
 import numpy as np
 
-from filter import FourierEllipsoidFilter
-from utility import OptimizationSearch
+from filter import DaltonizationLabEnchanceFilter
+from utility import OptimizationTest
 from utility import use_project_path
-from utility import save_filter_search_scores
+from utility import save_filter_test_scores
 
 
 if __name__ == '__main__':
@@ -37,68 +39,64 @@ if __name__ == '__main__':
                         help='The network architecture to test: vgg16, vgg19, densenet, or resnet')
     parser.add_argument('-s', '--sample', default=100,
                         help='The sample file to use for testing.')
-    parser.add_argument('-i', '--iterations', default=25,
-                        help='The number of iterations to use for testing.')
     arguments = vars(parser.parse_args())
 
     NETWORK = arguments['network']
     SAMPLE = arguments['sample']
-    ITERATIONS = int(arguments['iterations'])
 
     print('')
-    print('Starting adversarial evaluation of a gaussian filter.')
+    print('Starting adversarial evaluation of a color blindness daltonization with LAB color enhancement.')
     print('')
     print('       Network: %s' % NETWORK)
     print('        Sample: %s' % SAMPLE)
-    print('    Iterations: %s' % ITERATIONS)
     print('')
 
-    filter = FourierEllipsoidFilter()
+    filter = DaltonizationLabEnchanceFilter()
 
     if NETWORK == 'vgg16':
         model = VGG16(weights='imagenet')
-        search = OptimizationSearch(
+        search = OptimizationTest(
             np.load('data/vgg16_%s_correct.npy' % SAMPLE, allow_pickle=True),
             filter,
             model,
             vgg16_preprocess_input,
             lambda_value=1.0
         )
-        results, scores = search.perform_search(iterations=ITERATIONS)
-        save_filter_search_scores(filter, results, scores, 'log/fourier_ellipsoid_filter_vgg16_%s_search.csv' % SAMPLE)
+        results, scores = search.perform_test()
+        save_filter_test_scores(filter, results, scores, 'log/daltonization_lab_enhance_filter_vgg16_%s_search.csv' % SAMPLE)
 
     if NETWORK == 'vgg19':
         model = VGG19(weights='imagenet')
-        search = OptimizationSearch(
+        search = OptimizationTest(
             np.load('data/vgg19_%s_correct.npy' % SAMPLE, allow_pickle=True),
             filter,
             model,
             vgg19_preprocess_input,
             lambda_value=1.0
         )
-        results, scores = search.perform_search(iterations=ITERATIONS)
-        save_filter_search_scores(filter, results, scores, 'log/fourier_ellipsoid_filter_vgg19_%s_search.csv' % SAMPLE)
+        results, scores = search.perform_test()
+        save_filter_test_scores(filter, results, scores, 'log/daltonization_lab_enhance_filter_vgg19_%s_search.csv' % SAMPLE)
 
     if NETWORK == 'densenet':
         model = DenseNet201(weights='imagenet')
-        search = OptimizationSearch(
+        search = OptimizationTest(
             np.load('data/densenet201_%s_correct.npy' % SAMPLE, allow_pickle=True),
             filter,
             model,
             densenet_preprocess_input,
             lambda_value=1.0
         )
-        results, scores = search.perform_search(iterations=ITERATIONS)
-        save_filter_search_scores(filter, results, scores, 'log/fourier_ellipsoid_filter_densenet201_%s_search.csv' % SAMPLE)
+        results, scores = search.perform_test()
+        save_filter_test_scores(filter, results, scores, 'log/daltonization_lab_enhance_filter_densenet201_%s_search.csv' % SAMPLE)
 
     if NETWORK == 'resnet':
         model = ResNet152V2(weights='imagenet')
-        search = OptimizationSearch(
+        search = OptimizationTest(
             np.load('data/resnet152v2_%s_correct.npy' % SAMPLE, allow_pickle=True),
             filter,
             model,
             resnet_preprocess_input,
             lambda_value=1.0
         )
-        results, scores = search.perform_search(iterations=ITERATIONS)
-        save_filter_search_scores(filter, results, scores, 'log/fourier_ellipsoid_filter_resnet152v2_%s_search.csv' % SAMPLE)
+        results, scores = search.perform_test()
+        save_filter_test_scores(filter, results, scores, 'log/daltonization_lab_enhance_filter_resnet152v2_%s_search.csv' % SAMPLE)

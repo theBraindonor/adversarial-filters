@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 """
-    This file will create a configurable gaussian filter that can be used to test the effectiveness of the
-    filter in adversarial attacks
+    This file defines a color blindness correction filter that uses Daltonization and can be used
+    in experiments and evaluations.
 """
 
 __author__ = "John Hoff"
@@ -38,6 +38,14 @@ rgb_daltonization_deut_matrix = np.array([
 
 
 def daltonize_rgb(image, blind_transform, daltonization_matrix):
+    """
+    Daltonize an image based on the color blind transformation.  This will attempt to correct for some
+    of the information loss due to color blindness.
+    :param image: The image to correct
+    :param blind_transform: The transformation that simulates the color blindness
+    :param daltonization_matrix: The transformation to correct for the information loss
+    :return:
+    """
     image = image/255.
     image_blind = apply_matrix_to_image(
             np.dot(lms_matrix_inverse, np.dot(blind_transform, lms_matrix)),image)
@@ -45,6 +53,11 @@ def daltonize_rgb(image, blind_transform, daltonization_matrix):
 
 
 class DaltonizationFilter(object):
+    """
+    The daltonization filter will accept two different blindness types: protanopia and deuteranopia.
+    This filter will attempt to correct for the loss of information due to color blindness in an image
+    by incorporating the lost color channels into the other color channels.
+    """
     def __init__(self):
         pass
 

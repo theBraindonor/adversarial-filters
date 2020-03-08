@@ -18,6 +18,9 @@ from skimage.exposure import equalize_hist
 
 
 class HistogramEqualizationFilter(object):
+    """
+    This filter will apply a histogram equalization on the image using the indicated bins and multichannel flag.
+    """
     def __init__(self):
         pass
 
