@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-    Test the impact on a fourier gaussian filter on several imagenet based classifiers.
+    Test the impact of a fourier gaussian filter on several imagenet based classifiers.
 """
 
 __author__ = "John Hoff"
@@ -60,8 +60,7 @@ if __name__ == '__main__':
             np.load('data/vgg16_%s_correct.npy' % SAMPLE, allow_pickle=True),
             filter,
             model,
-            vgg16_preprocess_input,
-            lambda_value=1.0
+            vgg16_preprocess_input
         )
         results, scores = search.perform_search(iterations=ITERATIONS)
         save_filter_search_scores(filter, results, scores, 'log/fourier_gaussian_filter_vgg16_%s_search.csv' % SAMPLE)
@@ -72,8 +71,7 @@ if __name__ == '__main__':
             np.load('data/vgg19_%s_correct.npy' % SAMPLE, allow_pickle=True),
             filter,
             model,
-            vgg19_preprocess_input,
-            lambda_value=1.0
+            vgg19_preprocess_input
         )
         results, scores = search.perform_search(iterations=ITERATIONS)
         save_filter_search_scores(filter, results, scores, 'log/fourier_gaussian_filter_vgg19_%s_search.csv' % SAMPLE)
@@ -84,8 +82,7 @@ if __name__ == '__main__':
             np.load('data/densenet201_%s_correct.npy' % SAMPLE, allow_pickle=True),
             filter,
             model,
-            densenet_preprocess_input,
-            lambda_value=1.0
+            densenet_preprocess_input
         )
         results, scores = search.perform_search(iterations=ITERATIONS)
         save_filter_search_scores(filter, results, scores, 'log/fourier_gaussian_filter_densenet201_%s_search.csv' % SAMPLE)
@@ -96,8 +93,7 @@ if __name__ == '__main__':
             np.load('data/resnet152v2_%s_correct.npy' % SAMPLE, allow_pickle=True),
             filter,
             model,
-            resnet_preprocess_input,
-            lambda_value=1.0
+            resnet_preprocess_input
         )
         results, scores = search.perform_search(iterations=ITERATIONS)
         save_filter_search_scores(filter, results, scores, 'log/fourier_gaussian_filter_resnet152v2_%s_search.csv' % SAMPLE)

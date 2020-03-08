@@ -27,7 +27,7 @@ class SaltPepperNoiseFilter(object):
 
     @staticmethod
     def get_default_dimensions():
-        return [0.0, 0.01]
+        return [0.05, 0.5]
 
     @staticmethod
     def get_dimensions():

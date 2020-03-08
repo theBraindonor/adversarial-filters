@@ -20,7 +20,7 @@ from utility.score import filtered_network_eot
 
 
 class OptimizationTest(object):
-    def __init__(self, images, filter, network_model, preprocessor, lambda_value=None):
+    def __init__(self, images, filter, network_model, preprocessor, lambda_value=1.):
         self.images = images
         self.filter = filter
         self.network_model = network_model

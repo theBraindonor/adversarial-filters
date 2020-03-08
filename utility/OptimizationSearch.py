@@ -20,7 +20,7 @@ from utility.score import filtered_network_eot
 
 
 class OptimizationSearch(object):
-    def __init__(self, images, filter, network_model, preprocessor, lambda_value=None, random_state=454):
+    def __init__(self, images, filter, network_model, preprocessor, lambda_value=1., random_state=454):
         self.images = images
         self.filter = filter
         self.network_model = network_model
