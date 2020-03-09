@@ -27,13 +27,13 @@ class SpeckleNoiseFilter(object):
 
     @staticmethod
     def get_default_dimensions():
-        return [0.0, 0.05]
+        return [0.0, 0.2]
 
     @staticmethod
     def get_dimensions():
         return [
-            Real(low=-0.05, high=0.05, name='mean'),
-            Real(low=0.025, high=0.5, name='var')
+            Real(low=-0.5, high=0.5, name='mean'),
+            Real(low=0.05, high=1.0, name='var')
         ]
 
     def transform_image(self, dimensions, image):
