@@ -3,7 +3,7 @@
 # downloaded locally into the data folder before this script can be run.  So long
 # as the first script that processes the Imagenet labels runs correctly, then
 # everything should proceed correctly.
-sample=100
+sample=1000
 # Preproces the data
 python -m preprocess.create_imagenet_labels
 python -m preprocess.create_vgg16_dataset -n $sample
